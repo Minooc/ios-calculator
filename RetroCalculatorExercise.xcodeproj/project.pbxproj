@@ -193,6 +193,7 @@
 				TargetAttributes = {
 					DAD40B5C1F40063500E76B77 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = Q9XGDB6V8X;
 						ProvisioningStyle = Automatic;
 					};
 					DAD40B701F40063500E76B77 = {
@@ -414,6 +415,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Q9XGDB6V8X;
 				INFOPLIST_FILE = RetroCalculatorExercise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Minooc.RetroCalculatorExercise;
@@ -426,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Q9XGDB6V8X;
 				INFOPLIST_FILE = RetroCalculatorExercise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Minooc.RetroCalculatorExercise;
@@ -507,6 +510,7 @@
 				DAD40B871F40063500E76B77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DAD40B881F40063500E76B77 /* Build configuration list for PBXNativeTarget "RetroCalculatorExerciseTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +519,7 @@
 				DAD40B8A1F40063500E76B77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DAD40B8B1F40063500E76B77 /* Build configuration list for PBXNativeTarget "RetroCalculatorExerciseUITests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +528,7 @@
 				DAD40B8D1F40063500E76B77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
