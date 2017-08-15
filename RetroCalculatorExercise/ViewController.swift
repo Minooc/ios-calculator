@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
 
     var calcOperation = "empty"
+    var reset = true
     var runningNumber = ""
     var leftValue: Double = 0
     var rightValue: Double = 0
@@ -29,17 +30,40 @@ class ViewController: UIViewController {
 
     @IBAction func numberPressed(_ sender: UIButton) {
         
+        if (calcOperation == "empty") {
+            
+            reset = true
+        }
+        
+        
         if (sender.tag > 0) {
+            
+            // 1 ~ 9
+            
+            if (runningNumber == "0") {
+                runningNumber = ""
+            }
+            
             runningNumber += "\(sender.tag)"
             numberLabel.text = runningNumber
         }
         
+
         if (sender.tag == 0) {
-            if (runningNumber != "") {
+            
+            // 0
+            
+            if (runningNumber == "") {
+                runningNumber = "0"
+                numberLabel.text = runningNumber
+            }
+            
+            if (runningNumber != "0") {
                 runningNumber += "\(sender.tag)"
                 numberLabel.text = runningNumber
             }
         }
+        
         
     }
 
@@ -48,25 +72,26 @@ class ViewController: UIViewController {
         // Operation is pressed
         if (sender.tag < 0 && sender.tag >= -4) {
             
-            if (leftValue == 0) {
+            if (runningNumber != "") {
                 
-                // When leftValue is 0; the first time assigning to leftValue
-                
-                leftValue = Double(runningNumber)!
-                runningNumber = ""
-            }
-            
-            if (leftValue != 0 && runningNumber != "") {
-                
-                // When calculation is ready
-                
-                rightValue = Double(runningNumber)!
-                calculation()
-                
-            }
-            
+                if (reset) {
 
-            
+                    // Initial condition
+                    
+                    leftValue = Double(runningNumber)!
+                    runningNumber = ""
+                    
+                } else {
+                
+                    // When calculation is ready
+                    
+                    rightValue = Double(runningNumber)!
+                    calculation()
+                
+                }
+            }
+
+        
             if (sender.tag == -1) {
                 calcOperation = "multiply"
             } else if (sender.tag == -2) {
@@ -77,12 +102,15 @@ class ViewController: UIViewController {
                 calcOperation = "add"
             }
             
+            reset = false
+            
         }
         
         // Equal is pressed with right condition
-        if (sender.tag == -5 && leftValue != 0 && runningNumber != "") {
+        if (sender.tag == -5 && runningNumber != "") {
             rightValue = Double(runningNumber)!
             calculation()
+            calcOperation = "empty"
         }
         
         
@@ -92,6 +120,7 @@ class ViewController: UIViewController {
     @IBAction func clearPressed(_ sender: UIButton) {
         if (sender.tag == -6) {
             calcOperation = "empty"
+            reset = true
             runningNumber = ""
             leftValue = 0
             rightValue = 0
