@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var leftValue: Double = 0
     var rightValue: Double = 0
     var result: Double = 0
+    var hasDot: Bool = false
     
     
     override func viewDidLoad() {
@@ -113,9 +114,19 @@ class ViewController: UIViewController {
             calcOperation = "empty"
         }
         
+        hasDot = false
+        
         
     }
 
+    @IBAction func dotPressed(_ sender: Any) {
+        if (hasDot == false && runningNumber != "") {
+            runningNumber += "."
+            numberLabel.text = runningNumber
+            hasDot = true
+        }
+        
+    }
     
     @IBAction func clearPressed(_ sender: UIButton) {
         if (sender.tag == -6) {
@@ -125,6 +136,7 @@ class ViewController: UIViewController {
             leftValue = 0
             rightValue = 0
             result = 0
+            hasDot = false
             
             numberLabel.text = "0"
         }
