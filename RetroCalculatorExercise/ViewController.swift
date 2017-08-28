@@ -12,8 +12,7 @@ class ViewController: UIViewController {
 
 
     var calcOperation = "empty"
-    var reset = true
-    var continuing = false
+    var reset = true    // Initial condition, or when clear is pressed
     var runningNumber = ""
     var leftValue: Double = 0
     var rightValue: Double = 0
@@ -21,8 +20,11 @@ class ViewController: UIViewController {
     var hasDot: Bool = false
     
     var lowerPriorityValue: Double = 0
-    var hasLowPriorityOperation = 0     //  0 means there is no low-priority operator.
-    // it will be assigned to -3 when subtract is pressed, and -4 when add is pressed.
+    var hasLowPriorityOperation = 0     //  0 means there is no low-priority operator. it will be assigned to -3 when subtract is pressed, and -4 when add is pressed.
+   
+  
+    var operatorButton = false   // This becomes true when operator is pressd, and false if everything else is pressed. This variable is for preventing bugs occured when different operators are pressed consecutively.
+
     
     
     override func viewDidLoad() {
@@ -70,56 +72,45 @@ class ViewController: UIViewController {
             }
         }
         
+        operatorButton = false
         
     }
 
     @IBAction func operationPressed(_ sender: UIButton) {
         
+
         // Operation is pressed
         if (sender.tag < 0 && sender.tag >= -4) {
             
-            if (continuing) {
-                if (sender.tag == -3) {
-                    hasLowPriorityOperation = -3
-                } else if (sender.tag == -4) {
-                    hasLowPriorityOperation = -4
-                }
-                continuing = false
-            }
             
             if (runningNumber != "") {
                 
-                if (reset) {
 
-                    // Initial condition
-                    
-                    // When lower priority operator (+ or -) is pressed
-                    if (sender.tag == -3) {
-                        hasLowPriorityOperation = -3
-                    } else if (sender.tag == -4) {
-                        hasLowPriorityOperation = -4
-                    }
+                // Initial condition
+                if (reset) {
                     
                     leftValue = Double(runningNumber)!
                     runningNumber = ""
                     
+                // After initial condition
                 } else {
-                
-                    // When calculation is ready
                     
+                    
+                    // This case is when calculation is not yet ready, but has to set priority.
                     if ((sender.tag == -1 || sender.tag == -2) && (hasLowPriorityOperation != 0 && lowerPriorityValue == 0)) {
-                        
-                        // This case is when calculation is not yet ready, but has to set priority.
                         
                         lowerPriorityValue = leftValue
                         leftValue = Double(runningNumber)!
                         runningNumber = ""
-                        
                     
-                    } else if ((sender.tag == -3 || sender.tag == -4) && lowerPriorityValue != 0) {
+                    }
+                     
+                    // This is for calculating both of high-priority and low-priority calculation
+                    else if ((sender.tag == -3 || sender.tag == -4) && lowerPriorityValue != 0) {
                         
                         priorityCalculation()
-                        
+                    
+                    // This is for calculating only high-priority calculation
                     } else {
                         
                         rightValue = Double(runningNumber)!
@@ -127,8 +118,6 @@ class ViewController: UIViewController {
                     }
                     
 
-
-                
                 }
             }
 
@@ -139,11 +128,14 @@ class ViewController: UIViewController {
                 calcOperation = "divide"
             } else if (sender.tag == -3) {
                 calcOperation = "subtract"
+                hasLowPriorityOperation = -3
             } else if (sender.tag == -4) {
                 calcOperation = "add"
+                hasLowPriorityOperation = -4
             }
             
             reset = false
+
             
         }
 
@@ -162,13 +154,13 @@ class ViewController: UIViewController {
                 calcOperation = "empty"
             }
             
-            continuing = true
         }
         
         hasDot = false
-        
+        operatorButton = true
         
     }
+
 
     @IBAction func dotPressed(_ sender: Any) {
         if (hasDot == false && runningNumber != "") {
@@ -183,7 +175,6 @@ class ViewController: UIViewController {
         if (sender.tag == -6) {
             calcOperation = "empty"
             reset = true
-            continuing = false
             runningNumber = ""
             leftValue = 0
             rightValue = 0
@@ -191,10 +182,12 @@ class ViewController: UIViewController {
             result = 0
             hasDot = false
             hasLowPriorityOperation = 0
+            operatorButton = false
             
             numberLabel.text = "0"
         }
     }
+    
     
     func calculation() {
         if (calcOperation == "add") {
@@ -212,7 +205,9 @@ class ViewController: UIViewController {
         runningNumber = ""
     }
     
+    
     func priorityCalculation() {
+        
         // this handles higher priority one
         
         rightValue = Double(runningNumber)!
